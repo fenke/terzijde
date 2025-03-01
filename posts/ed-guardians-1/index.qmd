@@ -1,0 +1,191 @@
+---
+title: 'Elite Dangerous: Guardians I'
+author: CMDR immerlicht
+date: '3310-02-01'
+categories:
+  - elite-dangerous
+  - code
+  - analysis
+
+image: HighResScreenShot_2023-01-06_19-cropped.jpg
+echo: true
+output: false
+draft: false
+format:
+  html:
+    toc: true
+
+      
+title-block-banner: true
+
+---
+
+## Introduction
+
+
+The Guardians, a lost, enigmatic civilization that left us beacons and ruins, millions of years old, yet all still functional. They were technologically advanced and colonized part of the Orion arm long before humans learned to travel between stars, long before we even existed.
+
+Not one decade after their initial discovery a remarkable 300 systems have been discovered with remains of this mysterious civilization.
+
+
+More information and research on the Guardians you can find with [Canonn Research / The Guardians](https://canonn.science/codex/the-guardians/).
+
+
+## An observation
+
+The [Interactive Galactic Map](https://edastro.com/galmap/) with EDAstro can display markersfor known systems with guardian sites, the result can be seen in @fig-astro-guardian-sites. 
+
+![Galactic Map with Guardian sites](Web capture_4-2-2024_203931_edastro.com.jpeg){#fig-astro-guardian-sites}
+
+Looking at this map we immediately recognize these markers appear to lie on two lines that intersect somewhere at the border between the Formidine Rift and the Errant Marches.
+
+
+### First analysis
+
+Canonn Research maintains data on discoveries related to the Guardians. We use the coordinate data on Guardian Sites, Ruins and Beacons from Canonn Research and collect them into a minimal dataframe for further use:
+
+```{python}
+#
+import os
+import json
+import numpy as np
+import pandas as pd
+from io import StringIO
+from itertools import accumulate, permutations, combinations, product
+from sklearn.cluster import DBSCAN
+```
+
+```{python}
+
+guardiandata_path = os.path.join(os.getcwd(), '..','..', 'data', 'guardian')
+
+guardiandata_files = {n.split(' - ')[2].split('.')[-2]:os.path.join(guardiandata_path, n) for n in os.listdir(guardiandata_path) if 'Canonn - Guardians' in n}
+guardiandata = {n:pd.read_csv(p) for n,p in guardiandata_files.items()}
+```
+
+```{python}
+with open(f"guardian-beacons.json", 'wt') as of:
+    json.dump(dict(markers=[
+            dict(
+                pin='red',
+                text=str(row),
+                **{c:v for c,v in zip(['x','y','z'], row[['x','y','z']])}
+            )
+            for index,row in guardiandata['Guardian Beacons'].iterrows()
+        ]), of, indent=3)
+```
+
+```{python}
+soi = ['Ruins','Structures']+ ['Beacons']
+
+inter_columns = list([i for i in accumulate([set(guardiandata['Guardian '+n].columns) for n in soi], lambda D1, D2: D1 & D2)][-1])
+union_columns = list([i for i in accumulate([set(guardiandata['Guardian '+n].columns) for n in soi], lambda D1, D2: D1 | D2)][-1])
+
+column_order_inter = {c:i for c,i in zip(guardiandata['Guardian Beacons'].columns, range(len(guardiandata['Guardian Beacons'].columns))) }
+inter_columns = sorted(inter_columns, key=lambda I:column_order_inter.get(I,100))
+union_columns = sorted(union_columns, key=lambda I:column_order_inter.get(I,100))
+numeric_columns = set([ 'x', 'y', 'z','Distance To Arrival', 'Orbital Eccentricity', 'Surface Temperature', 'Rotational Period',])
+
+column_dtypes = dict(
+    Type=np.dtype(str),
+    **{
+        c:np.dtype(float if c in numeric_columns else str)
+        for c in union_columns
+    }
+)
+
+```
+
+
+```{python}
+ignore_columns = set(['SiteId','Reported By'])
+system_columns = [c for c in inter_columns if c not in ignore_columns]
+```
+
+
+```{python}
+soi_systems = [
+    {
+        "Type":g,
+        **{
+            c:r[c] 
+            for c in system_columns
+
+        }
+    }
+    for g in soi 
+    for i, r in guardiandata['Guardian '+g].iterrows()
+]
+df_systems = pd.DataFrame(soi_systems, columns=['Type']+system_columns)#.set_index(['Type','System Name'])
+df_coordinates = df_systems[['System Name', 'x', 'y', 'z']].drop_duplicates()
+soi_coordinates = df_coordinates[['x', 'y', 'z']].to_numpy()
+
+```
+
+
+```{python}
+
+soi_systemnames = np.array(
+    [
+        [g]+[
+            r[c] 
+            for c in system_columns
+        ]
+        for g in soi 
+        for i, r in guardiandata['Guardian '+g].iterrows()
+    ]
+)
+
+
+```
+
+```{python}
+df_systems.info()
+```
+
+```{python}
+
+coord_clusters = DBSCAN(eps=120, min_samples=3).fit(soi_coordinates)
+
+```
+
+```{python}
+#| output: true
+outliers = np.copy(soi_coordinates[np.less(coord_clusters.labels_,0)])
+outlier_systemnames = df_coordinates[np.less(coord_clusters.labels_,0)]
+outlier_systemnames
+```
+```{python}
+
+with open(f"guardian-outliers.json", 'wt') as of:
+    json.dump(dict(markers=[
+            dict(
+                pin='red',
+                text='\n'.join([f"{cn:20}: {v}" for cn, v in zip(['type'] + inter_columns,row[0])]),
+                **{c:v for c,v in zip(['x','y','z'], row[1])}
+            )
+            for row in [(n,c) for n,c in zip(outlier_systemnames, outliers)]
+        ] ), of, indent=3)
+```
+
+```{python}
+
+with open(f"guardian-clusters.json", 'wt') as of:
+    json.dump(dict(markers=[
+            dict(
+                pin='cyan',
+                text=f'Center of cluster {row[0]} with {row[2]} guardian sites',
+                **{c:v for c,v in zip(['x','y','z'], row[1])}
+            )
+            for row in [
+                (l, np.round(np.mean(soi_coordinates[np.equal(coord_clusters.labels_,l)], axis=0),2).tolist(), np.count_nonzero(np.equal(coord_clusters.labels_,l)) ) 
+                for l in np.unique(coord_clusters.labels_) 
+                if not l < 0]
+        ]), of, indent=3)
+```
+
+
+
+text
+
+
