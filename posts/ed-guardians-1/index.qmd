@@ -14,8 +14,7 @@ draft: false
 format:
   html:
     toc: true
-
-      
+     
 title-block-banner: true
 
 ---

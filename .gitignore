@@ -4,3 +4,8 @@ _site/
 /.quarto/
 .ipynb_checkpoints/
 .venv/
+
+/_*.local
+_freeze/
+site_libs/
+index_files/
