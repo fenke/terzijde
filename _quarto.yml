@@ -1,7 +1,10 @@
 project:
   type: website
+
+
 execute:
   freeze: auto
+
 website:
   title: "Terzijde"
   navbar:
@@ -9,12 +12,24 @@ website:
       - about.qmd
       - icon: github
         href: https://github.com/
-      - icon: twitter
-        href: https://twitter.com
+
+brand: _brand.yml
+
+# theme: 
+#   - materia
+#   - brand
+theme:
+  light: 
+    - flatly
+    - brand
+  dark: 
+    - darkly
+    - brand
+
+
 format:
   html:
-    theme: lux
-    css: styles.css
-
+    toc: true
+    toc-depth: 4
 
 
