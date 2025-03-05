@@ -12,6 +12,7 @@ format:
   html:
     toc: true
   typst:
+    papersize: a4
     toc: false
     keep-typ: true
     include-in-header: 
@@ -21,6 +22,7 @@ format:
       - text: '#pagebreak()'
 
 ---
+# This is Heading 1
 
 This is a playground for Quarto - omitting page numbers
 
@@ -31,9 +33,9 @@ This is a playground for Quarto - omitting page numbers
 {{< lipsum 3 >}}
 
 
-## Calibration expressions
+## H2: Calibration expressions
 
-### Calibration points
+### H3: Calibration points
 
 Corrections - or calibrations - use a 1 or more linesegments to map the measured value to the calibrated value. Complex functions are represented by multiple linesegments, defined by a series of points $(x_1, y_1) ... (x_n, y_n)$ 
 

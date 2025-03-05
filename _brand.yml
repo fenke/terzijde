@@ -2,27 +2,26 @@ color:
   palette: 
     white: "#ffffff"
     black: "#000000"
-    red: "#EE2200"
-    green: "#22DD00"
-    blue: "#0022CC"
-    deepblue: "#000066"
+    playful: "#AA64A5"
+    grounded: "#F5F5F5"
+    dyndark: "#282828"
+    wonder: "#FFFFFF"
+    blue: "#0066CC"
     burgundy: "#A80000"
     teal: "#008080"
     orange: "#FFA500"
-    sunlight: "#FFEECC"
-    moonlight: "#CCDDFF"
 
   # background: grounded
   # primary: dyndark
   # secondary: "#AA64A5"
 
   foreground: black
-  background: white
+  background: wonder
 
-  primary: sunlight
-  secondary: deepblue
+  primary: playful
+  secondary: dyndark
   tertiary: teal
-  success: green
+  success: playful
   info: teal
   warning: orange
   danger: burgundy
@@ -30,7 +29,6 @@ color:
   dark: "#404041"
 
 typography:
-
   fonts:
     - family: Open Sans
       source: google
@@ -40,24 +38,12 @@ typography:
       source: google
     - family: Langar
       source: google
-    - family: Quintessential
-      source: google
-    - family: Source Code Pro
-      source: google
-    - family: Croissant One
-      source: google
-    - family: Frank Ruhl Libre
-      source: google
-    - family: Karla
-      source: google
-
-
   base: 
-    family: Quintesential
+    family: Open Sans
     line-height: 1.5
 
   headings: 
-    family: Karla
+    family: Sora
     weight: light
     line-height: 2
     color: playful
@@ -66,7 +52,7 @@ typography:
     decoration: underline
 
   monospace: 
-    family: Source Code Pro
+    family: Space Mono
     size: 0.8em
   monospace-inline:
     color: "#222222"
@@ -74,4 +60,25 @@ typography:
   monospace-block: 
     background-color: "#f4eef8"
 
+
+# logo:
+#   images: 
+#     icon-dyndark-svg: "/_branding/Whysor-RGB-Icon-Dynamic_dark.svg"
+#     icon-dyndark-png: "/_branding/Whysor-RGB-Icon-Dynamic_dark.png"
+#     icon-wondering-png: "/_branding/Whysor-RGB-Icon-Wondering_white.png"
+#     logo-dyndark-svg: "/_branding/Whysor-RGB-Logo-Dynamic_dark.svg"
+#     logo-dyndark-png: "/_branding/Whysor-RGB-Logo-Dynamic_dark.png"
+#     logo-payoff-dyndark-png: 
+#       path: "/_branding/Whysor-RGB-Logo-pay_off-Dynamic_dark.png"
+#     logo-payoff-dyndark-svg: 
+#       path: "/_branding/Whysor-RGB-Logo-pay_off-Dynamic_dark.svg"
+#   small: 
+#     dark: icon-wondering-png
+#     light: icon-dyndark-png
+#   medium: 
+#     light: logo-dyndark-svg
+#     dark: logo-dyndark-png
+#   large:
+#     light: logo-payoff-dyndark-svg
+#     dark: logo-payoff-dyndark-png
 
