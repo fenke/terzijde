@@ -15,6 +15,11 @@ format:
   html:
     theme: lux
     css: styles.css
+    toc: false
+
+  pdf:
+    toc: false
+
 
 
 
