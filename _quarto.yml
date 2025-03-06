@@ -13,19 +13,13 @@ website:
       - icon: github
         href: https://github.com/
 
+theme:
+  light: 
+    - sandstone
+  dark: 
+    - slate
+
 brand: _brand.yml
-
-theme: 
-  - materia
-  - brand
-# theme:
-#   light: 
-#     - flatly
-#     - brand
-#   dark: 
-#     - darkly
-#     - brand
-
 
 format:
   html:

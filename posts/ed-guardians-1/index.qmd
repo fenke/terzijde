@@ -8,16 +8,30 @@ categories:
   - analysis
 
 image: HighResScreenShot_2023-01-06_19-cropped.jpg
-echo: true
-output: false
+echo: false
+output: true
 draft: false
 format:
   html:
     toc: true
+    reference-location: margin
      
 title-block-banner: true
 
 ---
+
+
+```{python}
+#
+import os, datetime
+import json
+import numpy as np
+import pandas as pd
+from io import StringIO
+from itertools import accumulate, permutations, combinations, product
+from sklearn.cluster import DBSCAN
+```
+
 
 ## Introduction
 
@@ -30,7 +44,7 @@ Not one decade after their initial discovery a remarkable 300 systems have been 
 More information and research on the Guardians you can find with [Canonn Research / The Guardians](https://canonn.science/codex/the-guardians/).
 
 
-## An observation
+### An observation
 
 The [Interactive Galactic Map](https://edastro.com/galmap/) with EDAstro can display markersfor known systems with guardian sites, the result can be seen in @fig-astro-guardian-sites. 
 
@@ -39,20 +53,9 @@ The [Interactive Galactic Map](https://edastro.com/galmap/) with EDAstro can dis
 Looking at this map we immediately recognize these markers appear to lie on two lines that intersect somewhere at the border between the Formidine Rift and the Errant Marches.
 
 
-### First analysis
+## First analysis
 
-Canonn Research maintains data on discoveries related to the Guardians. We use the coordinate data on Guardian Sites, Ruins and Beacons from Canonn Research and collect them into a minimal dataframe for further use:
-
-```{python}
-#
-import os
-import json
-import numpy as np
-import pandas as pd
-from io import StringIO
-from itertools import accumulate, permutations, combinations, product
-from sklearn.cluster import DBSCAN
-```
+Canonn Research maintains data on discoveries related to the Guardians. We use the coordinate data Canonn Research and collect them into a minimal dataframe for further use.
 
 ```{python}
 
@@ -60,7 +63,9 @@ guardiandata_path = os.path.join(os.getcwd(), '..','..', 'data', 'guardian')
 
 guardiandata_files = {n.split(' - ')[2].split('.')[-2]:os.path.join(guardiandata_path, n) for n in os.listdir(guardiandata_path) if 'Canonn - Guardians' in n}
 guardiandata = {n:pd.read_csv(p) for n,p in guardiandata_files.items()}
+
 ```
+
 
 ```{python}
 with open(f"guardian-beacons.json", 'wt') as of:
@@ -93,7 +98,15 @@ column_dtypes = dict(
     }
 )
 
+# In text 
+guardiandata_filedate = datetime.date.fromtimestamp(os.path.getmtime(guardiandata_files['Guardian Ruins'])).isoformat()
+soi_names = ', '.join(['Guardian '+n for n in soi][0:-1]) + ' and Guardian '+soi[-1]
+
+
 ```
+
+There are `{python} len(soi)` sheets we are using, `{python} soi_names`.
+These sheets were downloaded from the Canonn Research website as csv files on `{python} guardiandata_filedate`. 
 
 
 ```{python}
@@ -121,26 +134,9 @@ soi_coordinates = df_coordinates[['x', 'y', 'z']].to_numpy()
 
 ```
 
+They hold information on a total of `{python} len(df_systems)` records for sites in `{python} len(soi_coordinates)` systems.
 
-```{python}
-
-soi_systemnames = np.array(
-    [
-        [g]+[
-            r[c] 
-            for c in system_columns
-        ]
-        for g in soi 
-        for i, r in guardiandata['Guardian '+g].iterrows()
-    ]
-)
-
-
-```
-
-```{python}
-df_systems.info()
-```
+### Clusters an outliers
 
 ```{python}
 
@@ -148,12 +144,17 @@ coord_clusters = DBSCAN(eps=120, min_samples=3).fit(soi_coordinates)
 
 ```
 
+On the Galactic Map with Guardian Sites (@fig-astro-guardian-sites) we recognize sites are clustered - mostly along travel routes - and if we cluster using DBSCAN^[Density-based spatial clustering; given a set of points in some space, it groups together points that are closely packed (points with many nearby neighbors), and marks as outliers points that lie alone in low-density regions (those whose nearest neighbors are too far away)] we can identify both the groupes of sites and outliers:
+
+
 ```{python}
 #| output: true
 outliers = np.copy(soi_coordinates[np.less(coord_clusters.labels_,0)])
 outlier_systemnames = df_coordinates[np.less(coord_clusters.labels_,0)]
-outlier_systemnames
+outlier_systemnames.set_index(['System Name']).round(1)
 ```
+
+
 ```{python}
 
 with open(f"guardian-outliers.json", 'wt') as of:
