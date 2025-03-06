@@ -2,122 +2,115 @@
    "markers": [
       {
          "pin": "cyan",
-         "text": "Center of cluster 0 with 485 guardian sites",
-         "x": 963.93,
-         "y": -143.48,
-         "z": -118.95
+         "text": "Center of cluster 0 with 253 guardian sites",
+         "x": 901.05,
+         "y": -137.94,
+         "z": -115.79
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 1 with 21 guardian sites",
-         "x": -5508.69,
-         "y": -540.86,
-         "z": 10520.3
+         "text": "Center of cluster 1 with 5 guardian sites",
+         "x": -5507.89,
+         "y": -539.22,
+         "z": 10514.41
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 2 with 26 guardian sites",
-         "x": 8655.06,
-         "y": -153.22,
-         "z": 2682.14
+         "text": "Center of cluster 2 with 9 guardian sites",
+         "x": 8653.54,
+         "y": -151.87,
+         "z": 2684.02
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 3 with 15 guardian sites",
-         "x": 1112.86,
-         "y": -210.37,
-         "z": 202.45
+         "text": "Center of cluster 3 with 6 guardian sites",
+         "x": 1111.4,
+         "y": -209.89,
+         "z": 201.31
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 4 with 19 guardian sites",
-         "x": -9303.99,
-         "y": -403.82,
-         "z": 7928.94
+         "text": "Center of cluster 4 with 8 guardian sites",
+         "x": -9299.73,
+         "y": -405.31,
+         "z": 7930.31
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 5 with 14 guardian sites",
-         "x": 4954.17,
-         "y": 159.51,
-         "z": 20640.97
+         "text": "Center of cluster 5 with 5 guardian sites",
+         "x": 4954.73,
+         "y": 158.16,
+         "z": 20640.66
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 6 with 22 guardian sites",
-         "x": 1227.25,
-         "y": -705.39,
-         "z": 12334.83
+         "text": "Center of cluster 6 with 8 guardian sites",
+         "x": 1232.51,
+         "y": -702.14,
+         "z": 12331.89
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 7 with 21 guardian sites",
-         "x": 14583.05,
-         "y": -238.23,
-         "z": 3564.39
+         "text": "Center of cluster 7 with 9 guardian sites",
+         "x": 14585.61,
+         "y": -240.14,
+         "z": 3564.8
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 8 with 20 guardian sites",
-         "x": 1056.05,
-         "y": -389.11,
-         "z": -387.77
+         "text": "Center of cluster 8 with 5 guardian sites",
+         "x": 1058.23,
+         "y": -387.08,
+         "z": -384.49
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 9 with 13 guardian sites",
-         "x": 1523.84,
-         "y": -208.41,
-         "z": 38.16
+         "text": "Center of cluster 9 with 6 guardian sites",
+         "x": 1522.22,
+         "y": -210.65,
+         "z": 34.15
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 10 with 15 guardian sites",
-         "x": -777.37,
-         "y": -623.76,
-         "z": 13436.52
+         "text": "Center of cluster 10 with 3 guardian sites",
+         "x": -768.97,
+         "y": -618.11,
+         "z": 13436.83
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 11 with 14 guardian sites",
-         "x": -623.71,
-         "y": -554.08,
-         "z": 13263.77
+         "text": "Center of cluster 11 with 6 guardian sites",
+         "x": -623.98,
+         "y": -551.63,
+         "z": 13264.42
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 12 with 12 guardian sites",
-         "x": -904.64,
-         "y": -656.2,
-         "z": 13536.07
+         "text": "Center of cluster 12 with 6 guardian sites",
+         "x": -907.17,
+         "y": -655.55,
+         "z": 13535.21
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 13 with 11 guardian sites",
-         "x": -678.35,
-         "y": -322.46,
-         "z": 13350.63
+         "text": "Center of cluster 13 with 4 guardian sites",
+         "x": -677.09,
+         "y": -321.44,
+         "z": 13349.38
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 14 with 14 guardian sites",
-         "x": -1016.32,
-         "y": -559.56,
-         "z": 13184.65
+         "text": "Center of cluster 14 with 5 guardian sites",
+         "x": -1017.35,
+         "y": -562.68,
+         "z": 13185.34
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 15 with 12 guardian sites",
+         "text": "Center of cluster 15 with 4 guardian sites",
          "x": -1123.76,
          "y": -397.15,
          "z": 13388.27
-      },
-      {
-         "pin": "cyan",
-         "text": "Center of cluster 16 with 5 guardian sites",
-         "x": -1039.31,
-         "y": -488.84,
-         "z": 13616.98
       }
    ]
 }

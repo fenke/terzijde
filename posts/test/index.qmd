@@ -1,0 +1,60 @@
+---
+title: "Quarto Playground"
+subtitle: "Omitting page numbers"
+abstract: "This is a playground for Quarto - omitting page numbers.\\ Ut ut condimentum augue, 
+nec eleifend nisl. Sed facilisis egestas odio ac pretium. Pellentesque consequat magna sed venenatis sagittis."
+author: CMDR immerlicht
+date: '3310-02-01'
+categories:
+    - code
+echo: true
+format:
+  html:
+    toc: true
+  typst:
+    toc: false
+    keep-typ: true
+    include-in-header: 
+      - text: '#set page(footer: context [])'
+      - text: '#set page(numbering: none)'
+    include-before-body: 
+      - text: '#pagebreak()'
+
+---
+
+This is a playground for Quarto - omitting page numbers
+
+{{< lipsum 1 >}}
+
+![An image]({{< placeholder 600 400 >}}){#fig-placeholder}
+
+{{< lipsum 3 >}}
+
+
+## Calibration expressions
+
+### Calibration points
+
+Corrections - or calibrations - use a 1 or more linesegments to map the measured value to the calibrated value. Complex functions are represented by multiple linesegments, defined by a series of points $(x_1, y_1) ... (x_n, y_n)$ 
+
+In each segment $i$ calculation is as
+
+
+$$
+    y = \frac{y_{i+1} - y_i}{x_{i+1}-x_i} (x - x_i) + y_i
+$$
+
+or when we replace $\frac{y_{i+1} - y_i}{x_{i+1}-x_i}$ with $Q_i$
+
+$$
+    y = Q_i (x - x_i) + y_i
+$$
+
+or as a partial sql expression: `$1 * (value - $2) + $3`
+
+```{python}
+import sys  
+print(sys.version)
+print(sys.executable)
+```
+
