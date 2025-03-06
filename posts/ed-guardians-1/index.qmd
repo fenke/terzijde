@@ -15,6 +15,9 @@ format:
   html:
     toc: true
     reference-location: margin
+  typst:
+    toc: true
+    keep-typ: true
      
 title-block-banner: true
 
@@ -30,6 +33,23 @@ import pandas as pd
 from io import StringIO
 from itertools import accumulate, permutations, combinations, product
 from sklearn.cluster import DBSCAN
+
+from IPython.display import display
+from IPython.display import Markdown
+
+```
+
+```{python}	
+raw_base_url = "https://raw.githubusercontent.com/fenke/terzijde/main/posts/ed-guardians-1/"
+ed_astro_galmap_custom_url="https://edastro.com/galmap/?custom="
+
+def embed_astro(markers):
+    if isinstance(markers, list):
+        source = f"{ed_astro_galmap_custom_url}{';'.join([raw_base_url + str(s) for s in markers])}"
+    else:
+        source = f"{ed_astro_galmap_custom_url}{raw_base_url + str(markers)}"
+        
+    return f''' <iframe width=100% height=640 src="{source}"></iframe> '''
 ```
 
 
@@ -136,15 +156,30 @@ soi_coordinates = df_coordinates[['x', 'y', 'z']].to_numpy()
 
 They hold information on a total of `{python} len(df_systems)` records for sites in `{python} len(soi_coordinates)` systems.
 
-### Clusters an outliers
+### Clusters and outliers
+
+
+On the Galactic Map with Guardian Sites (@fig-astro-guardian-sites) we recognize sites are clustered - mostly along travel routes - and if we cluster using DBSCAN^[Density-based spatial clustering; given a set of points in some space, it groups together points that are closely packed (points with many nearby neighbors), and marks as outliers points that lie alone in low-density regions (those whose nearest neighbors are too far away)] we can identify both the groups of sites and outliers.
 
 ```{python}
+#| echo: true
+dbscan_parameters = dict(
+    eps=200,        # < 120 lightyears from neighbours
+    min_samples=3   # at least 3 systems in a cluster
+)
 
-coord_clusters = DBSCAN(eps=120, min_samples=3).fit(soi_coordinates)
+```
+```{python}
+#| echo: false
+coord_clusters = DBSCAN(**dbscan_parameters).fit(soi_coordinates)
 
 ```
 
-On the Galactic Map with Guardian Sites (@fig-astro-guardian-sites) we recognize sites are clustered - mostly along travel routes - and if we cluster using DBSCAN^[Density-based spatial clustering; given a set of points in some space, it groups together points that are closely packed (points with many nearby neighbors), and marks as outliers points that lie alone in low-density regions (those whose nearest neighbors are too far away)] we can identify both the groupes of sites and outliers:
+
+With these parameters we identify `{python} str(len(np.unique(coord_clusters.labels_)))` clusters and `{python} str(np.sum(np.less(coord_clusters.labels_, 0)))` outliers
+
+#### Outliers
+
 
 
 ```{python}
@@ -153,11 +188,10 @@ outliers = np.copy(soi_coordinates[np.less(coord_clusters.labels_,0)])
 outlier_systemnames = df_coordinates[np.less(coord_clusters.labels_,0)]
 outlier_systemnames.set_index(['System Name']).round(1)
 ```
-
-
 ```{python}
+guardian_outliers_json_pins = "guardian-outliers.json"
 
-with open(f"guardian-outliers.json", 'wt') as of:
+with open(guardian_outliers_json_pins, 'wt') as of:
     json.dump(dict(markers=[
             dict(
                 pin='red',
@@ -170,7 +204,23 @@ with open(f"guardian-outliers.json", 'wt') as of:
 
 ```{python}
 
-with open(f"guardian-clusters.json", 'wt') as of:
+Markdown(f"""
+
+{embed_astro(guardian_outliers_json_pins)}
+
+
+"""
+)
+
+```
+
+#### Clusters
+
+
+
+```{python}
+guardian_clusters_json_pins = "guardian-clusters.json"
+with open(guardian_clusters_json_pins, 'wt') as of:
     json.dump(dict(markers=[
             dict(
                 pin='cyan',
@@ -184,6 +234,29 @@ with open(f"guardian-clusters.json", 'wt') as of:
         ]), of, indent=3)
 ```
 
+```{python}
+
+Markdown(f"""
+
+{embed_astro(guardian_clusters_json_pins)}
+
+
+"""
+)
+
+```
+
+```{python}
+
+mkdn = Markdown(f"""
+
+{embed_astro(guardian_clusters_json_pins)}
+
+
+"""
+)
+
+```
 
 
 text
