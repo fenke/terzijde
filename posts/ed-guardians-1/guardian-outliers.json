@@ -2,15 +2,24 @@
    "markers": [
       {
          "pin": "red",
-         "text": "TRAPEZIUM SECTOR YU-X C1-2\nx: 573.6, y: -339.5, z: -1167.7"
+         "text": "TRAPEZIUM SECTOR YU-X C1-2",
+         "x": 573.6,
+         "y": -339.5,
+         "z": -1167.7
       },
       {
          "pin": "red",
-         "text": "GRAEA HYPUE UT-D B17-5\nx: -897.1, y: -300.2, z: 13392.2"
+         "text": "GRAEA HYPUE UT-D B17-5",
+         "x": -897.1,
+         "y": -300.2,
+         "z": 13392.2
       },
       {
          "pin": "red",
-         "text": "WREGOE BU-Y B2-0\nx: 1077.4, y: 400.6, z: -993.4"
+         "text": "WREGOE BU-Y B2-0",
+         "x": 1077.4,
+         "y": 400.6,
+         "z": -993.4
       }
    ]
 }

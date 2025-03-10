@@ -72,10 +72,10 @@
       },
       {
          "pin": "cyan",
-         "text": "Center of cluster 10 with 5 guardian sites",
-         "x": -1079.14,
-         "y": -385.64,
-         "z": 13388.72
+         "text": "Center of cluster 10 with 6 guardian sites",
+         "x": -1048.81,
+         "y": -371.4,
+         "z": 13389.3
       }
    ]
 }
