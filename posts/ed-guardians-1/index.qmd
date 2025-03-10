@@ -165,7 +165,7 @@ On the Galactic Map with Guardian Sites (@fig-astro-guardian-sites) we recognize
 #| echo: true
 dbscan_parameters = dict(
     eps=200,        # < 120 lightyears from neighbours
-    min_samples=3   # at least 3 systems in a cluster
+    min_samples=4   # at least 3 systems in a cluster
 )
 
 ```
@@ -180,8 +180,6 @@ With these parameters we identify `{python} str(len(np.unique(coord_clusters.lab
 
 #### Outliers
 
-
-
 ```{python}
 #| output: true
 outliers = np.copy(soi_coordinates[np.less(coord_clusters.labels_,0)])
@@ -195,8 +193,7 @@ with open(guardian_outliers_json_pins, 'wt') as of:
     json.dump(dict(markers=[
             dict(
                 pin='red',
-                text=row[1]['System Name'],
-                **{c:row[1][c] for c in ['x','y','z']}
+                text=f"{row[1]['System Name']}\n{', '.join([c + ': ' + str(round(row[1][c],1)) for c in ['x','y','z'] ])}",
             )
             for row in outlier_systemnames.iterrows()
         ] ), of, indent=3)
