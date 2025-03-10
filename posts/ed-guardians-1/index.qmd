@@ -195,10 +195,10 @@ with open(guardian_outliers_json_pins, 'wt') as of:
     json.dump(dict(markers=[
             dict(
                 pin='red',
-                text='\n'.join([f"{cn:20}: {v}" for cn, v in zip(['type'] + inter_columns,row[0])]),
-                **{c:v for c,v in zip(['x','y','z'], row[1])}
+                text=row[1]['System Name'],
+                **{c:row[1][c] for c in ['x','y','z']}
             )
-            for row in [(n,c) for n,c in zip(outlier_systemnames, outliers)]
+            for row in outlier_systemnames.iterrows()
         ] ), of, indent=3)
 ```
 
@@ -228,7 +228,9 @@ with open(guardian_clusters_json_pins, 'wt') as of:
                 **{c:v for c,v in zip(['x','y','z'], row[1])}
             )
             for row in [
-                (l, np.round(np.mean(soi_coordinates[np.equal(coord_clusters.labels_,l)], axis=0),2).tolist(), np.count_nonzero(np.equal(coord_clusters.labels_,l)) ) 
+                (
+                    l, np.round(np.mean(soi_coordinates[np.equal(coord_clusters.labels_,l)], axis=0),2).tolist(), np.count_nonzero(np.equal(coord_clusters.labels_,l)) 
+                )
                 for l in np.unique(coord_clusters.labels_) 
                 if not l < 0]
         ]), of, indent=3)
